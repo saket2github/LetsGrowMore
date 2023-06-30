@@ -1,0 +1,112 @@
+package sorting;
+import java.util.Arrays;
+import java.util.InputMismatchException;
+import java.util.Scanner;
+public class TicTacToe
+{
+		static String[] tictactoe;
+	    static String turn;
+	    public static String Winner()
+	    {
+	        for (int i = 0; i < 8; i++) 
+	        {
+	            String l= "";
+	            switch (i) 
+	            {
+	            	case 0:
+	            		l=tictactoe[0] +tictactoe[1]+tictactoe[2];
+	            		break;
+	            	case 1:
+	            		l=tictactoe[3]+tictactoe[4]+tictactoe[5];
+	            		break;
+	            	case 2:
+	            		l=tictactoe[6]+tictactoe[7]+tictactoe[8];
+	                	break;
+	            	case 3:
+	            		l=tictactoe[0]+tictactoe[3]+tictactoe[6];
+	            		break;
+	            	case 4:
+	            		l=tictactoe[1]+tictactoe[4]+tictactoe[7];
+	            		break;
+	            	case 5:
+	            		l=tictactoe[2]+tictactoe[5]+tictactoe[8];
+	            		break;
+	            	case 6:
+	            		l=tictactoe[0]+tictactoe[4]+tictactoe[8];
+	            		break;
+	            	case 7:
+	            		l=tictactoe[2]+tictactoe[4]+tictactoe[6];
+	            		break;
+	            	}
+	            	if (l.equals("XXX"))
+	            		return "X";
+	            	else if (l.equals("OOO")) 
+	            		return "O";
+	        }
+	        for (int i=0;i<9;i++) 
+	        {
+	            if (Arrays.asList(tictactoe).contains(String.valueOf(i+1))) 
+	                break;
+	            else if (i == 8) 
+	                return "draw";
+	        }
+	        System.out.println(turn + "'s turn, Enter a slot number to place "+ turn + " in:");
+	        return null;
+	    }
+	    public static void printBoard()
+	    {
+	        System.out.println("|---|---|---|");
+	        System.out.println("| " + tictactoe[0] + " | "+ tictactoe[1] + " | " + tictactoe[2]+ " |");
+	        System.out.println("|-----------|");
+	        System.out.println("| " + tictactoe[3] + " | "+ tictactoe[4] + " | " +tictactoe[5]+ " |");
+	        System.out.println("|-----------|");
+	        System.out.println("| " + tictactoe[6] + " | "+ tictactoe[7] + " | " + tictactoe[8]+ " |");
+	        System.out.println("|---|---|---|");
+	    }
+	    public static void main(String[] args)
+	    {
+	        Scanner in = new Scanner(System.in);
+	        tictactoe= new String[9];
+	        turn = "X";
+	        String winner=null;
+	        for (int i = 0; i < 9; i++)
+	        	tictactoe[i] = String.valueOf(i + 1);
+	        System.out.println("Welcome to Tic-Tac-Toe Game");
+	        printBoard();
+	        System.out.println("Player A's turn First.Enter a slot number to place X in:");
+	        while (winner == null)
+	        {
+	            int Input;
+	            try 
+	            {
+	                Input = in.nextInt();
+	                if (!(Input > 0 && Input <= 9))
+	                {
+	                    System.out.println("Invalid input, Re-Enter your Choice!:");
+	                    continue;
+	                }
+	            }
+	            catch (InputMismatchException e) 
+	            {
+	                System.out.println("Invalid input, Re-Enter your Choice!:");
+	                continue;
+	            }
+	            if (tictactoe[Input - 1].equals(String.valueOf(Input)))
+	            {
+	            	tictactoe[Input - 1] = turn;
+	                if (turn.equals("X")) 
+	                    turn = "O";
+	                else 
+	                    turn = "X";
+	                printBoard();
+	                winner = Winner();
+	            }
+	            else 
+	                System.out.println("Slot already taken; re-enter slot number:");
+	        }
+	        if (winner.equals("draw")) 
+	            System.out.println("It's a draw! Thanks for playing.");
+	        else 
+	            System.out.println("Congratulations! " + winner+ "'s have won! Thanks for playing.");
+	    }
+}
